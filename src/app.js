@@ -11,7 +11,6 @@ app.use(cors());
 const repositories = [];
 
 app.get("/repositories", (request, response) => {
-  // TODO
   return response.json(repositories);
 });
 
@@ -19,9 +18,7 @@ app.post("/repositories", (request, response) => {
   // Receive: title, url e techs
   const { title, url, techs, likes } = request.body;
 
-  const repository = { id: uuid(), title, url, techs, likes };
-
-  // console.log(repository);
+  const repository = { id: uuid(), title, url, techs, likes: 0 };
 
   repositories.push(repository);
 
@@ -31,7 +28,7 @@ app.post("/repositories", (request, response) => {
 app.put("/repositories/:id", (request, response) => {
   // Alter: title, url, techs
   const { id } = request.params;
-  const { title, url, techs } = request.body;
+  const { title, url, techs, likes } = request.body;
 
   const repoIndex = repositories.findIndex(repo => repo.id === id);
 
@@ -40,6 +37,7 @@ app.put("/repositories/:id", (request, response) => {
   }
 
   const repository = {
+    likes: 0,
     id,
     title,
     url,
